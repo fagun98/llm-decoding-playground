@@ -1,4 +1,4 @@
-# 🎲 LLM Decoding Playground
+# LLM Decoding Playground
 
 Interactive playground showing how language models pick the next token using temperature, top-k, and top-p (nucleus) sampling.
 
@@ -85,36 +85,38 @@ graph LR
 
 ## Model Details
 
-- **Model**: [DistilGPT2](https://huggingface.co/distilgpt2) (distilled GPT-2)
-- **Size**: ~80MB (ONNX format)
-- **Download**: Fetched from Hugging Face Hub on first load, cached by browser
-- **Inference**: Runs entirely in the browser using WebAssembly
+- **Model**: [Xenova/distilgpt2](https://huggingface.co/Xenova/distilgpt2) (ONNX port of DistilGPT2 for Transformers.js)
+- **Size**: ~82MB quantized ONNX (`decoder_model_merged_quantized.onnx`)
+- **Serving**: Vendored under `public/models/Xenova/distilgpt2/` and loaded same-origin (avoids Hugging Face CORS issues on localhost / GitHub Pages)
+- **Inference**: Real next-token logits from the model in the browser via WebAssembly (ONNX Runtime Web)
+- **Sampling**: Temperature, top-k, top-p, renormalisation, and seeded sampling are implemented from scratch in TypeScript (`src/utils/sampling.ts`) and unit-tested
 
 ## Project Structure
 
 ```
 llm-decoding-playground/
 ├── src/
-│   ├── components/           # React components
-│   │   ├── PromptInput.tsx   # Prompt input with presets
-│   │   ├── ControlPanel.tsx  # Temperature/top-k/top-p sliders
-│   │   ├── ProbabilityChart.tsx  # Token probability visualization
-│   │   ├── GenerationPanel.tsx   # Sampling controls
-│   │   └── Explainer.tsx     # Educational content
+│   ├── components/              # React UI
+│   │   ├── PromptInput.tsx
+│   │   ├── ControlPanel.tsx
+│   │   ├── ProbabilityChart.tsx
+│   │   ├── GenerationPanel.tsx
+│   │   └── Explainer.tsx
 │   ├── utils/
-│   │   ├── sampling.ts       # Core sampling logic (temp, top-k, top-p)
-│   │   ├── sampling.test.ts  # Unit tests for sampling
-│   │   └── model.ts          # Transformers.js model wrapper
-│   ├── App.tsx               # Main application
-│   ├── App.css               # Styles
-│   └── main.tsx              # Entry point
-├── .github/workflows/        # CI and deployment
-│   ├── ci.yml                # Lint, test, build
-│   └── deploy.yml            # GitHub Pages deployment
-├── assets/                   # Screenshots and images
+│   │   ├── sampling.ts          # Temperature / top-k / top-p (from scratch)
+│   │   ├── sampling.test.ts
+│   │   └── model.ts             # Transformers.js DistilGPT2 wrapper
+│   ├── App.tsx
+│   ├── App.css
+│   └── main.tsx
+├── public/models/Xenova/distilgpt2/   # Vendored quantized ONNX (~82MB)
+├── assets/                            # Real UI screenshots
+├── scripts/capture-screenshots.mjs
+├── .github/workflows/
+│   ├── ci.yml
+│   └── deploy.yml
 ├── package.json
 ├── vite.config.ts
-├── tsconfig.json
 └── README.md
 ```
 
@@ -211,4 +213,4 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ---
 
-Built with ❤️ for the LinkedIn community • No API keys, no backend, just pure browser-based learning
+Built for the LinkedIn community — no API keys, no backend, just browser-based learning.

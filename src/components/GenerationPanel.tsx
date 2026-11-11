@@ -27,7 +27,7 @@ export function GenerationPanel({
           Sample 1 Token
         </button>
         <button className="btn btn-primary" onClick={onGenerate} disabled={disabled || generating}>
-          {generating ? 'Generating...' : 'Generate 20 Tokens'}
+          {generating ? 'Generating...' : 'Generate ~25 Tokens'}
         </button>
         <button className="btn" onClick={onCompare} disabled={disabled || generating}>
           Compare Strategies

@@ -1,29 +1,17 @@
 # Screenshots
 
-Screenshots will be generated after manual testing of the deployed application.
+Real screenshots captured from the production build (`npm run build && npm run preview`) with DistilGPT2 loaded in Chromium:
 
-The application includes:
-1. **Main Interface** - Shows the probability chart with token bars, parameter sliders (Temperature, Top-K, Top-P), and interactive controls
-2. **Filtered Tokens** - Demonstrates how tokens are visually filtered (greyed out and crossed out) when top-k or top-p thresholds are applied
-3. **Strategy Comparison** - Side-by-side comparison of greedy (temp=0), balanced (temp=0.7), and creative (temp=1.5) sampling outputs
+| File | Contents |
+|------|----------|
+| `screenshot-main.png` | Full UI with Temperature / Top-k / Top-p set so some candidates are filtered |
+| `screenshot-filtered.png` | Close-up of the probability bars with greyed / struck-through filtered tokens |
+| `screenshot-comparison.png` | Greedy vs balanced vs high-temperature continuations |
 
-## To Generate Screenshots
-
-1. Run the application: `npm run dev`
-2. Open http://localhost:5173/llm-decoding-playground/ in a browser
-3. Wait for the model to load (~1-2 minutes on first load)
-4. Interact with the controls:
-   - Adjust sliders to see real-time probability changes
-   - Set Top-K to 10 or Top-P to 0.5 to see token filtering
-   - Use "Sample 1 Token" and "Generate 20 Tokens" buttons
-   - Click "Compare Strategies" for side-by-side outputs
-5. Capture screenshots showing these features
-
-## Production Build Testing
+Regenerate with:
 
 ```bash
 npm run build
-npm run preview
+npm run preview -- --host 127.0.0.1 --port 4173
+node scripts/capture-screenshots.mjs
 ```
-
-Then visit http://localhost:4173/llm-decoding-playground/
